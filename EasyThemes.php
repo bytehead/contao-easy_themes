@@ -246,7 +246,7 @@ class EasyThemes extends Backend
             }
 
             // request token
-            if ($GLOBALS['TL_EASY_THEMES_MODULES'][$strModule]['appendRT']) {
+            if (array_key_exists('appendRT', $GLOBALS['TL_EASY_THEMES_MODULES'][$strModule]) && $GLOBALS['TL_EASY_THEMES_MODULES'][$strModule]['appendRT']) {
                 $href .= ((strpos($href, '?') !== false) ? '&' : '?') . 'rt=' . REQUEST_TOKEN;
             }
 
@@ -260,11 +260,11 @@ class EasyThemes extends Backend
                 }
             }
 
-            list(,$queryStringOfHref) = explode('?', str_replace('&amp;', '&', $href), 2);
-            list(,$queryStringOfCurrent) = explode('?', \Environment::get('requestUri'), 2);
+            $queryStringOfHref = explode('?', str_replace('&amp;', '&', $href), 2);
+            $queryStringOfCurrent = explode('?', \Environment::get('requestUri'), 2);
 
-            $paramsOfHref = $this->getRelevantParametersFromQueryString($queryStringOfHref);
-            $paramsOfCurrent = $this->getRelevantParametersFromQueryString($queryStringOfCurrent);
+            $paramsOfHref = $this->getRelevantParametersFromQueryString(count($queryStringOfHref) > 1 ? $queryStringOfHref[1] : '');
+            $paramsOfCurrent = $this->getRelevantParametersFromQueryString(count($queryStringOfCurrent) > 1 ? $queryStringOfCurrent[1] : '');
 
             // Adjust theme ID
             $paramsOfCurrent['id'] = (string) $currentId;

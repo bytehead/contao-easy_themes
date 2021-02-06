@@ -62,7 +62,7 @@ $GLOBALS['TL_EASY_THEMES_MODULES'] = array_merge
             }
         )
     ),
-    is_array($GLOBALS['TL_EASY_THEMES_MODULES']) ? $GLOBALS['TL_EASY_THEMES_MODULES'] : array()
+    array_key_exists('TL_EASY_THEMES_MODULES', $GLOBALS) && is_array($GLOBALS['TL_EASY_THEMES_MODULES']) ? $GLOBALS['TL_EASY_THEMES_MODULES'] : array()
 );
 
 if (version_compare(VERSION, '4.8', '>=')) {
@@ -75,9 +75,9 @@ if (version_compare(VERSION, '4.8', '>=')) {
 // fix uninstall exception - see #756
 // fix database error - see #822
 // fix install exception - see #4
-$repositoryManager = $_GET['do'] == 'repository_manager' && $_GET['update'] == 'database';
+$repositoryManager = array_key_exists('do', $_GET) && $_GET['do'] == 'repository_manager' && $_GET['update'] == 'database';
 $installTool = strpos($_SERVER['PHP_SELF'], 'contao/install.php') !== false;
-$composer = $_GET['do'] == 'composer' && $_GET['update'] == 'database';
+$composer = array_key_exists('do', $_GET) && $_GET['do'] == 'composer' && $_GET['update'] == 'database';
 $beMode = TL_MODE == 'BE';
 
 if ($beMode
